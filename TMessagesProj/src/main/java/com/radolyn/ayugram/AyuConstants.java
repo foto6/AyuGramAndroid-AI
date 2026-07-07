@@ -45,6 +45,7 @@ public class AyuConstants {
     public static final int AYUSYNC_REGISTER_STATUS_CODE_CHANGED = 6973;
 
     public static String DEFAULT_DELETED_MARK = "🧹";
+    public static String DEFAULT_AI_SYSTEM_PROMPT = "You are replying from the Telegram account owner's perspective. Answer naturally, briefly, and only when a reply is useful. If the last incoming messages are only acknowledgements, endings, or low-signal text like ok, пон, ясно, спс, пока, return an empty response. Do not explain your reasoning.";
     public static String DEFAULT_AYUSYNC_SERVER = BuildVars.isBetaApp() ? "ayusync-dev.radolyn.com:5000" : "ayusync.cloud";
 
     public static String AYU_DATABASE = "ayu-data";

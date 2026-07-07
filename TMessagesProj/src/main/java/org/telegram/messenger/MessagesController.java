@@ -33,6 +33,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.util.Consumer;
 
+import com.radolyn.ayugram.ai.AyuAiReplyController;
 import com.radolyn.ayugram.messages.AyuSavePreferences;
 import com.radolyn.ayugram.utils.AyuState;
 import org.telegram.SQLite.SQLiteCursor;
@@ -14128,6 +14129,9 @@ public class MessagesController extends BaseController implements NotificationCe
                 ImageLoader.saveMessageThumbs(message);
 
                 MessageObject.getDialogId(message);
+                if (!(baseUpdate instanceof TLRPC.TL_updateNewScheduledMessage)) {
+                    AyuAiReplyController.getInstance(currentAccount).onNewMessage(message);
+                }
                 if (baseUpdate instanceof TLRPC.TL_updateNewChannelMessage && message.reply_to != null && !(message.action instanceof TLRPC.TL_messageActionPinMessage)) {
                     if (channelReplies == null) {
                         channelReplies = new LongSparseArray<>();

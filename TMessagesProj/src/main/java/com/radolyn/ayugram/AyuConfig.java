@@ -53,6 +53,11 @@ public class AyuConfig {
     public static boolean syncEnabled;
     public static boolean useSecureConnection;
     public static boolean WALMode;
+    public static boolean aiReplyEnabled;
+    public static boolean aiPrivateOnly;
+    public static boolean aiSplitReplies;
+    public static int aiDebounceSeconds;
+    public static int aiHistoryLimit;
 
     private static boolean configLoaded;
 
@@ -114,6 +119,13 @@ public class AyuConfig {
             // syncServerToken
             syncEnabled = preferences.getBoolean("syncEnabled", false);
             useSecureConnection = preferences.getBoolean("useSecureConnection", !BuildVars.isBetaApp());
+
+            // ~ AI Bridge
+            aiReplyEnabled = preferences.getBoolean("aiReplyEnabled", false);
+            aiPrivateOnly = preferences.getBoolean("aiPrivateOnly", true);
+            aiSplitReplies = preferences.getBoolean("aiSplitReplies", true);
+            aiDebounceSeconds = preferences.getInt("aiDebounceSeconds", 10);
+            aiHistoryLimit = preferences.getInt("aiHistoryLimit", 20);
 
             // ~ Debug
             WALMode = preferences.getBoolean("walMode", true);
@@ -187,6 +199,22 @@ public class AyuConfig {
 
     public static String getSyncServerToken() {
         return preferences.getString("syncServerToken", "");
+    }
+
+    public static String getAiBridgeUrl() {
+        return preferences.getString("aiBridgeUrl", "http://192.168.137.1:17448/v1");
+    }
+
+    public static String getAiBridgeApiKey() {
+        return preferences.getString("aiBridgeApiKey", "");
+    }
+
+    public static String getAiBridgeModel() {
+        return preferences.getString("aiBridgeModel", "chatgpt-web");
+    }
+
+    public static String getAiSystemPrompt() {
+        return preferences.getString("aiSystemPrompt", AyuConstants.DEFAULT_AI_SYSTEM_PROMPT);
     }
 
     public static ArrayList<String> getRegexFilters() {

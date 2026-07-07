@@ -56,6 +56,7 @@ public class AyuGramPreferencesActivity extends BasePreferencesActivity implemen
     private int disableAdsRow;
     private int localPremiumRow;
     private int filtersRow;
+    private int aiBridgeRow;
     private int qolDividerRow;
 
     private int customizationHeaderRow;
@@ -110,6 +111,7 @@ public class AyuGramPreferencesActivity extends BasePreferencesActivity implemen
         disableAdsRow = newRow();
         localPremiumRow = newRow();
         filtersRow = newRow();
+        aiBridgeRow = newRow();
         qolDividerRow = newRow();
 
         customizationHeaderRow = newRow();
@@ -267,6 +269,8 @@ public class AyuGramPreferencesActivity extends BasePreferencesActivity implemen
             } else {
                 presentFragment(new RegexFiltersPreferencesActivity());
             }
+        } else if (position == aiBridgeRow) {
+            presentFragment(new AyuAiPreferencesActivity());
         } else if (position == showGhostToggleInDrawerRow) {
             AyuConfig.editor.putBoolean("showGhostToggleInDrawer", AyuConfig.showGhostToggleInDrawer ^= true).apply();
             ((TextCheckCell) view).setChecked(AyuConfig.showGhostToggleInDrawer);
@@ -373,6 +377,8 @@ public class AyuGramPreferencesActivity extends BasePreferencesActivity implemen
                         var status = AyuSyncState.getConnectionStateString();
 
                         textCell.setTextAndValue(LocaleController.getString(R.string.AyuSyncStatusTitle), status, false);
+                    } else if (position == aiBridgeRow) {
+                        textCell.setTextAndValue("AI Bridge", AyuConfig.aiReplyEnabled ? "enabled" : "disabled", true);
                     } else if (position == clearAyuDatabaseBtnRow) {
                         var file = ApplicationLoader.applicationContext.getDatabasePath(AyuConstants.AYU_DATABASE);
                         var size = file.exists() ? file.length() : 0;
@@ -490,6 +496,7 @@ public class AyuGramPreferencesActivity extends BasePreferencesActivity implemen
                             position == deletedMarkTextRow ||
                             position == editedMarkTextRow ||
                             position == ayuSyncStatusBtnRow ||
+                            position == aiBridgeRow ||
                             position == clearAyuDatabaseBtnRow ||
                             position == eraseLocalDatabaseBtnRow
             ) {
