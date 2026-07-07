@@ -302,8 +302,10 @@ public class ApplicationLoader extends Application {
         LauncherIconController.tryFixLauncherIconIfNeeded();
         ProxyRotationController.init();
 
-        ApplicationLoader app = (ApplicationLoader) ApplicationLoader.applicationContext;
-        app.initFirebase();
+        if (BuildConfig.ENABLE_GOOGLE_SERVICES) {
+            ApplicationLoader app = (ApplicationLoader) ApplicationLoader.applicationContext;
+            app.initFirebase();
+        }
     }
 
     public static void startPushService() {
