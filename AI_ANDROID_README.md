@@ -2,6 +2,22 @@
 
 This fork adds a local AyuGram Android client integration for an OpenAI-compatible Web AI Bridge.
 
+## Side-By-Side Install
+
+The AI build uses a separate Android package:
+
+```text
+com.radolyn.ayugram.ai
+```
+
+It installs next to the regular AyuGram app and does not replace or delete it.
+The launcher name is `AyuGram AI`.
+
+Google Services/Firebase processing is disabled for this debug AI build by default,
+because the bundled `google-services.json` belongs to the original package.
+Set `ENABLE_GOOGLE_SERVICES=true` only after adding a `google-services.json`
+client for `com.radolyn.ayugram.ai`.
+
 ## Build
 
 Tools are expected on drive `E:`:
@@ -10,10 +26,27 @@ Tools are expected on drive `E:`:
 .\build-ai-debug.ps1
 ```
 
-The APK is written to:
+For a normal non-debug universal APK:
+
+```powershell
+.\build-ai-universal.ps1
+```
+
+By default, the universal release build is signed with the local debug key
+(`AI_USE_DEBUG_SIGNING_FOR_RELEASE=true`) so it can be installed without the
+original exteraGram release keystore. Set it to `false` only when valid release
+keystore credentials are configured.
+
+The debug APK is written to:
 
 ```text
-TMessagesProj\build\outputs\apk\beta\debug\ayuGram-beta-universal-*.apk
+TMessagesProj\build\outputs\apk\beta\debug\ayuGram-ai-beta-universal-*.apk
+```
+
+The universal release APK is written to:
+
+```text
+TMessagesProj\build\outputs\apk\afat\release\ayuGram-ai-universal-*.apk
 ```
 
 ## Install
@@ -22,6 +55,12 @@ Enable USB debugging on the phone, connect it, then run:
 
 ```powershell
 .\install-ai-debug.ps1
+```
+
+For the normal universal APK:
+
+```powershell
+.\install-ai-universal.ps1
 ```
 
 ## Configure In App

@@ -73,6 +73,7 @@ dependencies {
 
 def isPmBuild = "false"
 def abis = [9: 'universal', 1: 'armeabi-v7a', 5: 'arm64-v8a', 2: 'x86', 6: 'x86_64']
+def aiUseDebugSigningForRelease = (project.findProperty("AI_USE_DEBUG_SIGNING_FOR_RELEASE") ?: "true").toBoolean()
 
 android {
     compileSdkVersion 33
@@ -164,7 +165,7 @@ android {
         release {
             debuggable false
             jniDebuggable false
-            signingConfig signingConfigs.release
+            signingConfig aiUseDebugSigningForRelease ? signingConfigs.debug : signingConfigs.release
             minifyEnabled true
             shrinkResources true
             multiDexEnabled true
@@ -214,7 +215,7 @@ android {
             def formattedDate = date.format('ddMMyyyy')
             def abi = abis.get(variant.productFlavors.get(0).abiVersionCode)
 
-            outputFileName = "ayuGram-${buildType}${abi}-${formattedDate}.apk"
+            outputFileName = "ayuGram-ai-${buildType}${abi}-${formattedDate}.apk"
             output.versionCodeOverride = defaultConfig.versionCode * (isPmBuild == "true" ? 100 : 10) + variant.productFlavors.get(0).abiVersionCode
         }
     }
@@ -233,5 +234,8 @@ configurations.implementation {
     exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk8'
 }
 
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
+def enableGoogleServices = (project.findProperty("ENABLE_GOOGLE_SERVICES") ?: "false").toBoolean()
+if (enableGoogleServices) {
+    apply plugin: 'com.google.gms.google-services'
+    apply plugin: 'com.google.firebase.crashlytics'
+}

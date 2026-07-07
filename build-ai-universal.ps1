@@ -10,12 +10,12 @@ $env:Path = "$env:JAVA_HOME\bin;$env:ANDROID_HOME\platform-tools;$env:Path"
 
 Push-Location $repo
 try {
-    & "C:\Program Files\Git\bin\bash.exe" -lc './gradlew :TMessagesProj:assembleBetaDebug --stacktrace'
+    & "C:\Program Files\Git\bin\bash.exe" -lc './gradlew :TMessagesProj:assembleAfatRelease --stacktrace'
     if ($LASTEXITCODE -ne 0) {
         throw "Gradle build failed with exit code $LASTEXITCODE."
     }
 
-    Get-ChildItem "$repo\TMessagesProj\build\outputs\apk\beta\debug\ayuGram-ai-*.apk" |
+    Get-ChildItem "$repo\TMessagesProj\build\outputs\apk\afat\release\ayuGram-ai-universal-*.apk" |
         Sort-Object LastWriteTime -Descending |
         Select-Object -First 1 FullName, Length, LastWriteTime
 } finally {
